@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -6,7 +6,16 @@
   <meta name="google-site-verification" content="Q2AYI2MsqWTyny8c1B74LeUb4-TZkfvewmYH_w3mawo" />
   <title>Paint Calculator — How Much Paint Do I Need? | HomeCalc</title>
   <meta name="description" content="Calculate how much paint you need for any room. Enter wall dimensions and get gallons needed instantly. Free paint coverage calculator with waste factor.">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%A0%3C/text%3E%3C/svg%3E">
   <link rel="canonical" href="https://medabrigh93.github.io/homecalc-/paint-calculator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Paint Calculator - How Much Paint Do I Need?">
+  <meta property="og:description" content="Calculate how much paint you need for any room. Enter wall dimensions and get gallons needed instantly.">
+  <meta property="og:url" content="https://medabrigh93.github.io/homecalc-/paint-calculator.html">
+  <meta property="og:site_name" content="HomeCalc">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Paint Calculator - How Much Paint Do I Need?">
+  <meta name="twitter:description" content="Calculate how much paint you need for any room. Enter wall dimensions and get gallons needed instantly.">
   <link rel="stylesheet" href="css/style.css">
   <script type="application/ld+json">
   {
@@ -18,6 +27,26 @@
       {"@type": "Question", "name": "Should I buy extra paint?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, it's recommended to buy 10-15% extra paint for touch-ups, waste, and uneven surfaces."}}
     ]
   }
+  </script>
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://medabrigh93.github.io/homecalc-/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Paint Calculator",
+      "item": "https://medabrigh93.github.io/homecalc-/paint-calculator.html"
+    }
+  ]
+}
   </script>
 <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-N9TH2XX9B9"></script>
@@ -119,13 +148,22 @@
   </section>
 
   <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+
+  <section class="info-section" style="margin-top:2rem">
+    <h2>Related Calculators</h2>
+    <ul>
+    <li><a href="drywall-calculator.html">Drywall Calculator</a></li>
+    <li><a href="wallpaper-calculator.html">Wallpaper Calculator</a></li>
+    <li><a href="room-area-calculator.html">Room Area Calculator</a></li>
+    </ul>
+  </section>
 </main>
 
 <footer class="site-footer">
   <p>&copy; 2026 HomeCalc. All rights reserved. | <a href="/">All Calculators</a></p>
 </footer>
 
-<script src="js/main.js"></script>
+<script src="js/main.js" defer></script>
 <script>
 function calculatePaint() {
   const length = getVal('length');

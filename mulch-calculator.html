@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mulch Calculator — How Much Mulch Do I Need? | HomeCalc</title>
+  <meta name="description" content="Calculate how many bags or cubic yards of mulch you need for your garden beds. Enter area and depth for instant results.">
+  <link rel="canonical" href="https://homecalc.github.io/mulch-calculator.html">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      HomeCalc
+    </a>
+    <nav><a href="/">All Calculators</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="breadcrumb"><a href="/">Home</a> &rsaquo; Mulch Calculator</div>
+
+  <h1>Mulch Calculator — How Much Mulch Do I Need?</h1>
+  <p style="color:var(--muted);margin-bottom:1.5rem">Enter your garden bed dimensions and desired mulch depth.</p>
+
+  <div class="calc-page">
+    <div class="calc-form">
+      <label for="areaL">Bed Length (ft)</label>
+      <input type="number" id="areaL" placeholder="e.g. 20" min="0" step="0.1">
+
+      <label for="areaW">Bed Width (ft)</label>
+      <input type="number" id="areaW" placeholder="e.g. 4" min="0" step="0.1">
+
+      <label for="depth">Mulch Depth (inches)</label>
+      <select id="depth">
+        <option value="2">2 inches</option>
+        <option value="3" selected>3 inches (recommended)</option>
+        <option value="4">4 inches</option>
+        <option value="6">6 inches</option>
+      </select>
+
+      <label for="bagSize">Bag Size (cu ft)</label>
+      <select id="bagSize">
+        <option value="2" selected>2 cu ft (standard)</option>
+        <option value="3">3 cu ft (large)</option>
+      </select>
+
+      <label for="bagPrice">Price per Bag ($) — optional</label>
+      <input type="number" id="bagPrice" placeholder="e.g. 4.50" min="0" step="0.01">
+
+      <button class="btn" onclick="calculateMulch()">Calculate</button>
+    </div>
+
+    <div class="calc-result">
+      <div class="big-number" id="result-yards">—</div>
+      <div class="unit">cubic yards</div>
+      <div class="detail" id="result-detail"></div>
+    </div>
+  </div>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+
+  <section class="info-section">
+    <h2>How to Calculate Mulch</h2>
+    <p><strong>Volume</strong> = Length × Width × Depth (all in feet)</p>
+    <p>Divide by 27 to get cubic yards. One cubic yard covers about 108 sq ft at 3" depth.</p>
+
+    <h3>Recommended Mulch Depths</h3>
+    <ul>
+      <li><strong>2"</strong> — Light coverage, best for decorative stone mulch</li>
+      <li><strong>3"</strong> — Ideal for most garden beds (weed control + moisture retention)</li>
+      <li><strong>4"</strong> — Heavy weed suppression, slopes</li>
+      <li><strong>6"</strong> — Playground areas with wood chips</li>
+    </ul>
+  </section>
+
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q">How much mulch do I need for a 100 sq ft bed?</div>
+      <div class="faq-a">At 3 inches deep, you need about 0.93 cubic yards or roughly 13 bags (2 cu ft each).</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Should I buy bags or bulk mulch?</div>
+      <div class="faq-a">For small beds (under 3 cubic yards), bags are fine. For larger areas, bulk delivery is cheaper — usually $25–50 per cubic yard delivered.</div>
+    </div>
+  </section>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 HomeCalc. All rights reserved. | <a href="/">All Calculators</a></p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+function calculateMulch() {
+  const area = getVal('areaL') * getVal('areaW');
+  const depthFt = getVal('depth') / 12;
+  const bagSize = getVal('bagSize');
+  const bagPrice = getVal('bagPrice');
+
+  const volumeCuFt = area * depthFt;
+  const cubicYards = volumeCuFt / 27;
+  const bags = Math.ceil(volumeCuFt / bagSize);
+
+  setResult('result-yards', cubicYards.toFixed(2));
+  let detail = `Area: ${area.toFixed(0)} sq ft<br>` +
+    `Volume: ${volumeCuFt.toFixed(1)} cu ft<br>` +
+    `= ${cubicYards.toFixed(2)} cubic yards<br>` +
+    `= ${bags} bags (${bagSize} cu ft each)`;
+
+  if (bagPrice > 0) {
+    detail += `<br><strong>Est. cost: $${(bags * bagPrice).toFixed(2)}</strong>`;
+  }
+  document.getElementById('result-detail').innerHTML = detail;
+}
+</script>
+</body>
+</html>

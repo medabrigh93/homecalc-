@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Grout Calculator — How Much Grout Do I Need? | HomeCalc</title>
+  <meta name="description" content="Calculate how much grout you need based on tile size, joint width, and area. Free tile grout calculator with instant results.">
+  <link rel="canonical" href="https://homecalc.github.io/grout-calculator.html">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      HomeCalc
+    </a>
+    <nav><a href="/">All Calculators</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="breadcrumb"><a href="/">Home</a> &rsaquo; Grout Calculator</div>
+
+  <h1>Grout Calculator — How Much Grout Do I Need?</h1>
+  <p style="color:var(--muted);margin-bottom:1.5rem">Enter tile dimensions and joint width to estimate grout needed.</p>
+
+  <div class="calc-page">
+    <div class="calc-form">
+      <label for="areaSize">Total Area (sq ft)</label>
+      <input type="number" id="areaSize" placeholder="e.g. 100" min="0" step="0.1">
+
+      <label for="tileL">Tile Length (inches)</label>
+      <input type="number" id="tileL" value="12" min="0.1" step="0.1">
+
+      <label for="tileW">Tile Width (inches)</label>
+      <input type="number" id="tileW" value="12" min="0.1" step="0.1">
+
+      <label for="tileD">Tile Thickness (inches)</label>
+      <input type="number" id="tileD" value="0.375" min="0.01" step="0.01">
+
+      <label for="jointW">Joint / Gap Width (inches)</label>
+      <input type="number" id="jointW" value="0.125" min="0.01" step="0.01">
+
+      <button class="btn" onclick="calculateGrout()">Calculate</button>
+    </div>
+
+    <div class="calc-result">
+      <div class="big-number" id="result-lbs">—</div>
+      <div class="unit">lbs of grout</div>
+      <div class="detail" id="result-detail"></div>
+    </div>
+  </div>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+
+  <section class="info-section">
+    <h2>How Grout Is Calculated</h2>
+    <p>Grout volume depends on joint width, tile thickness, and the number of joints per square foot.</p>
+    <p>The formula calculates the total linear inches of grout joints per tile, multiplied by joint cross-section area, then scaled to your total area.</p>
+
+    <h3>Common Joint Widths</h3>
+    <ul>
+      <li><strong>1/16" (0.0625")</strong> — Rectified/minimal grout lines</li>
+      <li><strong>1/8" (0.125")</strong> — Standard for wall tiles</li>
+      <li><strong>3/16" (0.1875")</strong> — Standard for floor tiles</li>
+      <li><strong>1/4" (0.25")</strong> — Natural stone, rustic look</li>
+    </ul>
+  </section>
+
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q">How much grout for 100 sq ft of 12×12 tile?</div>
+      <div class="faq-a">With standard 1/8" joints and 3/8" thick tile, you'll need approximately 6–8 lbs of sanded grout for 100 sq ft.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How many sq ft does a 25 lb bag of grout cover?</div>
+      <div class="faq-a">It varies widely by tile size and joint width. For 12×12 tiles with 1/8" joints, a 25 lb bag covers roughly 300–400 sq ft.</div>
+    </div>
+  </section>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 HomeCalc. All rights reserved. | <a href="/">All Calculators</a></p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+function calculateGrout() {
+  const area = getVal('areaSize');
+  const tileL = getVal('tileL');
+  const tileW = getVal('tileW');
+  const tileD = getVal('tileD');
+  const jointW = getVal('jointW');
+
+  // Account for joint gap in tile spacing
+  const tilePitchL = tileL + jointW; // center-to-center spacing
+  const tilePitchW = tileW + jointW;
+  const tilesPerSqFt = 144 / (tilePitchL * tilePitchW);
+
+  // Volume of grout per tile in cubic inches
+  // Each tile "owns" one L-edge and one W-edge of joint (shared grid)
+  const jointVolPerTile = (tileL + tileW) * tileD * jointW;
+
+  // Total grout volume in cubic inches
+  const totalVolCuIn = jointVolPerTile * tilesPerSqFt * area;
+  const totalVolCuFt = totalVolCuIn / 1728;
+
+  // Grout density ~100 lbs per cubic foot (sanded grout; unsanded ~70)
+  const lbs = totalVolCuFt * 100 * 1.1; // +10% waste
+  const bags25 = Math.ceil(lbs / 25);
+
+  setResult('result-lbs', lbs.toFixed(1));
+  document.getElementById('result-detail').innerHTML =
+    `Area: ${area} sq ft<br>` +
+    `Tiles per sq ft: ${tilesPerSqFt.toFixed(1)}<br>` +
+    `Grout volume: ${totalVolCuIn.toFixed(0)} cu in<br>` +
+    `≈ ${bags25} bag(s) of 25 lbs`;
+}
+</script>
+</body>
+</html>

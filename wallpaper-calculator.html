@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Wallpaper Calculator — How Many Rolls Do I Need? | HomeCalc</title>
+  <meta name="description" content="Calculate how many rolls of wallpaper you need. Enter room dimensions, roll size, and subtract doors and windows. Free wallpaper roll calculator.">
+  <link rel="canonical" href="https://homecalc.github.io/wallpaper-calculator.html">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      HomeCalc
+    </a>
+    <nav><a href="/">All Calculators</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="breadcrumb"><a href="/">Home</a> &rsaquo; Wallpaper Calculator</div>
+
+  <h1>Wallpaper Calculator — How Many Rolls Do I Need?</h1>
+  <p style="color:var(--muted);margin-bottom:1.5rem">Enter room and roll dimensions to find out how many rolls to buy.</p>
+
+  <div class="calc-page">
+    <div class="calc-form">
+      <label for="roomL">Room Length (ft)</label>
+      <input type="number" id="roomL" placeholder="e.g. 12" min="0" step="0.1">
+
+      <label for="roomW">Room Width (ft)</label>
+      <input type="number" id="roomW" placeholder="e.g. 14" min="0" step="0.1">
+
+      <label for="roomH">Wall Height (ft)</label>
+      <input type="number" id="roomH" value="8" min="0" step="0.1">
+
+      <label for="doors">Number of Doors</label>
+      <input type="number" id="doors" value="1" min="0">
+
+      <label for="windows">Number of Windows</label>
+      <input type="number" id="windows" value="2" min="0">
+
+      <label for="rollW">Roll Width (inches)</label>
+      <input type="number" id="rollW" value="20.5" min="0.1" step="0.1">
+
+      <label for="rollL">Roll Length (ft)</label>
+      <input type="number" id="rollL" value="33" min="0.1" step="0.1">
+
+      <label for="priceRoll">Price per Roll ($) — optional</label>
+      <input type="number" id="priceRoll" placeholder="e.g. 35" min="0" step="0.01">
+
+      <button class="btn" onclick="calculateWallpaper()">Calculate</button>
+    </div>
+
+    <div class="calc-result">
+      <div class="big-number" id="result-rolls">—</div>
+      <div class="unit">rolls needed</div>
+      <div class="detail" id="result-detail"></div>
+    </div>
+  </div>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+
+  <section class="info-section">
+    <h2>How to Calculate Wallpaper</h2>
+    <p><strong>Wall Perimeter</strong> = 2 × (Length + Width)</p>
+    <p><strong>Wall Area</strong> = Perimeter × Height − (Doors × 21 sq ft) − (Windows × 15 sq ft)</p>
+    <p><strong>Usable area per roll</strong> = Roll Width (ft) × Roll Length (ft)</p>
+    <p><strong>Rolls</strong> = Wall Area ÷ Usable Area per Roll (rounded up)</p>
+
+    <h3>Standard Roll Sizes</h3>
+    <ul>
+      <li><strong>American Single Roll:</strong> 20.5" wide × 33 ft long ≈ 56 sq ft</li>
+      <li><strong>Euro Roll:</strong> 21" wide × 33 ft long ≈ 57.75 sq ft</li>
+      <li><strong>Wallpaper usually sold in double rolls</strong> — check your supplier</li>
+    </ul>
+  </section>
+
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q">How many rolls of wallpaper for a 12×12 room?</div>
+      <div class="faq-a">With 8 ft ceilings and standard rolls (20.5" × 33'), you'd need about 7–8 single rolls after subtracting doors and windows.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Should I buy extra rolls?</div>
+      <div class="faq-a">Yes — buy 1–2 extra rolls to account for pattern matching, mistakes, and future repairs. Dye lots can vary between batches.</div>
+    </div>
+  </section>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 HomeCalc. All rights reserved. | <a href="/">All Calculators</a></p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+function calculateWallpaper() {
+  const roomL = getVal('roomL');
+  const roomW = getVal('roomW');
+  const roomH = getVal('roomH');
+  const doors = getVal('doors');
+  const windows = getVal('windows');
+  const rollW = getVal('rollW') / 12; // to feet
+  const rollL = getVal('rollL');
+  const price = getVal('priceRoll');
+
+  const perimeter = 2 * (roomL + roomW);
+  const wallArea = perimeter * roomH;
+  const subtract = doors * 21 + windows * 15;
+  const netArea = Math.max(0, wallArea - subtract);
+
+  const rollArea = rollW * rollL;
+  const rolls = Math.ceil(netArea / rollArea);
+  const withExtra = rolls + 1; // always add 1 extra roll
+
+  setResult('result-rolls', withExtra);
+  let detail = `Wall area: ${wallArea.toFixed(0)} sq ft<br>` +
+    `After doors/windows: ${netArea.toFixed(0)} sq ft<br>` +
+    `Roll coverage: ${rollArea.toFixed(1)} sq ft<br>` +
+    `Rolls needed: ${rolls} + 1 extra`;
+  if (price > 0) {
+    detail += `<br><strong>Est. cost: $${(withExtra * price).toFixed(2)}</strong>`;
+  }
+  document.getElementById('result-detail').innerHTML = detail;
+}
+</script>
+</body>
+</html>

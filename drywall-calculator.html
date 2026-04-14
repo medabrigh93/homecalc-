@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Drywall Calculator — How Many Sheets Do I Need? | HomeCalc</title>
+  <meta name="description" content="Calculate how many drywall sheets you need for walls and ceilings. Accounts for doors and windows. Free drywall calculator.">
+  <link rel="canonical" href="https://homecalc.github.io/drywall-calculator.html">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      HomeCalc
+    </a>
+    <nav><a href="/">All Calculators</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="breadcrumb"><a href="/">Home</a> &rsaquo; Drywall Calculator</div>
+
+  <h1>Drywall Calculator — How Many Sheets Do I Need?</h1>
+  <p style="color:var(--muted);margin-bottom:1.5rem">Enter room dimensions to estimate drywall sheets needed for walls and ceiling.</p>
+
+  <div class="calc-page">
+    <div class="calc-form">
+      <label for="roomL">Room Length (ft)</label>
+      <input type="number" id="roomL" placeholder="e.g. 12" min="0" step="0.1">
+
+      <label for="roomW">Room Width (ft)</label>
+      <input type="number" id="roomW" placeholder="e.g. 14" min="0" step="0.1">
+
+      <label for="roomH">Ceiling Height (ft)</label>
+      <input type="number" id="roomH" value="8" min="0" step="0.1">
+
+      <label for="doCeiling">Include Ceiling?</label>
+      <select id="doCeiling">
+        <option value="yes">Yes</option>
+        <option value="no">No — walls only</option>
+      </select>
+
+      <label for="sheetSize">Sheet Size</label>
+      <select id="sheetSize">
+        <option value="32">4×8 ft (32 sq ft)</option>
+        <option value="48">4×12 ft (48 sq ft)</option>
+      </select>
+
+      <label for="doors">Number of Doors</label>
+      <input type="number" id="doors" value="1" min="0">
+
+      <label for="windows">Number of Windows</label>
+      <input type="number" id="windows" value="2" min="0">
+
+      <button class="btn" onclick="calculateDrywall()">Calculate</button>
+    </div>
+
+    <div class="calc-result">
+      <div class="big-number" id="result-sheets">—</div>
+      <div class="unit">sheets needed</div>
+      <div class="detail" id="result-detail"></div>
+    </div>
+  </div>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+
+  <section class="info-section">
+    <h2>How to Calculate Drywall</h2>
+    <p><strong>Wall Area</strong> = 2 × (Length + Width) × Height</p>
+    <p><strong>Ceiling Area</strong> = Length × Width (if included)</p>
+    <p><strong>Net Area</strong> = Total − (Doors × 21 sq ft) − (Windows × 15 sq ft)</p>
+    <p><strong>Sheets</strong> = Net Area ÷ Sheet Size (rounded up, +10% waste)</p>
+
+    <h3>Drywall Thickness Guide</h3>
+    <ul>
+      <li><strong>1/4"</strong> — Curved walls, covering old surfaces</li>
+      <li><strong>3/8"</strong> — Patches and repairs</li>
+      <li><strong>1/2"</strong> — Standard walls and ceilings</li>
+      <li><strong>5/8"</strong> — Fire-rated, soundproofing, garage ceilings</li>
+    </ul>
+
+    <h3>Don't Forget</h3>
+    <ul>
+      <li>Joint compound: ~1 gallon per 100 sq ft</li>
+      <li>Joint tape: ~1 roll per 300 sq ft</li>
+      <li>Screws: ~32 screws per 4×8 sheet</li>
+    </ul>
+  </section>
+
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q">How many sheets of drywall for a 12×12 room?</div>
+      <div class="faq-a">Walls only (8 ft ceiling): about 12 sheets of 4×8. Including ceiling: about 17 sheets.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Should I use 4×8 or 4×12 sheets?</div>
+      <div class="faq-a">4×12 sheets create fewer joints (cleaner finish) but are heavier and harder to handle. Use 4×8 for DIY and 4×12 for professional installs.</div>
+    </div>
+  </section>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 HomeCalc. All rights reserved. | <a href="/">All Calculators</a></p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+function calculateDrywall() {
+  const roomL = getVal('roomL');
+  const roomW = getVal('roomW');
+  const roomH = getVal('roomH');
+  const doCeiling = document.getElementById('doCeiling').value === 'yes';
+  const sheetSize = getVal('sheetSize');
+  const doors = getVal('doors');
+  const windows = getVal('windows');
+
+  const wallArea = 2 * (roomL + roomW) * roomH;
+  const ceilingArea = doCeiling ? roomL * roomW : 0;
+  const subtract = doors * 21 + windows * 15;
+  const netWallArea = Math.max(0, wallArea - subtract);
+  const netArea = netWallArea + ceilingArea;
+  const withWaste = netArea * 1.1;
+  const sheets = Math.ceil(withWaste / sheetSize);
+
+  // Extras
+  const compound = (netArea / 100).toFixed(1);
+  const screws = sheets * 32;
+
+  setResult('result-sheets', sheets);
+  document.getElementById('result-detail').innerHTML =
+    `Wall area: ${wallArea.toFixed(0)} sq ft<br>` +
+    (doCeiling ? `Ceiling area: ${ceilingArea.toFixed(0)} sq ft<br>` : '') +
+    `Net area: ${netArea.toFixed(0)} sq ft<br>` +
+    `With 10% waste: ${withWaste.toFixed(0)} sq ft<br><br>` +
+    `<strong>Materials List:</strong><br>` +
+    `${sheets} drywall sheets<br>` +
+    `~${compound} gal joint compound<br>` +
+    `~${screws} screws`;
+}
+</script>
+</body>
+</html>

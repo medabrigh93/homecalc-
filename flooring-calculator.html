@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Flooring Cost Calculator — Estimate Material &amp; Installation | HomeCalc</title>
+  <meta name="description" content="Calculate flooring costs for hardwood, laminate, vinyl, or tile. Enter room size and price per sq ft to get total material and installation estimates.">
+  <link rel="canonical" href="https://homecalc.github.io/flooring-calculator.html">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      HomeCalc
+    </a>
+    <nav><a href="/">All Calculators</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="breadcrumb"><a href="/">Home</a> &rsaquo; Flooring Cost Calculator</div>
+
+  <h1>Flooring Cost Calculator</h1>
+  <p style="color:var(--muted);margin-bottom:1.5rem">Estimate total cost for materials and installation.</p>
+
+  <div class="calc-page">
+    <div class="calc-form">
+      <label for="areaL">Room Length (ft)</label>
+      <input type="number" id="areaL" placeholder="e.g. 15" min="0" step="0.1">
+
+      <label for="areaW">Room Width (ft)</label>
+      <input type="number" id="areaW" placeholder="e.g. 12" min="0" step="0.1">
+
+      <label for="floorType">Flooring Type</label>
+      <select id="floorType" onchange="updateDefaults()">
+        <option value="laminate">Laminate</option>
+        <option value="hardwood">Hardwood</option>
+        <option value="vinyl">Vinyl / LVP</option>
+        <option value="tile">Tile</option>
+        <option value="carpet">Carpet</option>
+      </select>
+
+      <label for="matCost">Material Cost ($/sq ft)</label>
+      <input type="number" id="matCost" value="2.50" min="0" step="0.01">
+
+      <label for="installCost">Installation Cost ($/sq ft)</label>
+      <input type="number" id="installCost" value="3.00" min="0" step="0.01">
+
+      <label for="waste">Waste / Extra (%)</label>
+      <input type="number" id="waste" value="10" min="0" max="50">
+
+      <button class="btn" onclick="calculateFlooring()">Calculate</button>
+    </div>
+
+    <div class="calc-result">
+      <div class="big-number" id="result-total">—</div>
+      <div class="unit">total estimated cost</div>
+      <div class="detail" id="result-detail"></div>
+    </div>
+  </div>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+
+  <section class="info-section">
+    <h2>Average Flooring Costs</h2>
+    <ul>
+      <li><strong>Laminate:</strong> $1–4/sq ft material + $2–4/sq ft install</li>
+      <li><strong>Hardwood:</strong> $3–10/sq ft material + $3–8/sq ft install</li>
+      <li><strong>Vinyl/LVP:</strong> $1–5/sq ft material + $1.50–3/sq ft install</li>
+      <li><strong>Tile:</strong> $1–15/sq ft material + $4–8/sq ft install</li>
+      <li><strong>Carpet:</strong> $1–5/sq ft material + $0.50–1.50/sq ft install</li>
+    </ul>
+    <p>Prices vary by region, quality, and complexity. Use "Material Cost" and "Installation Cost" to customize.</p>
+  </section>
+
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q">How much does it cost to floor a 1000 sq ft house?</div>
+      <div class="faq-a">With laminate at ~$5.50/sq ft (material + labor), roughly $5,500–$6,000 including waste. Hardwood could cost $8,000–$15,000+.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How much extra flooring should I buy?</div>
+      <div class="faq-a">10% extra is standard. For diagonal patterns or rooms with many angles, buy 15%.</div>
+    </div>
+  </section>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 HomeCalc. All rights reserved. | <a href="/">All Calculators</a></p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+const defaults = {
+  laminate:  { mat: 2.50, install: 3.00 },
+  hardwood:  { mat: 6.00, install: 5.00 },
+  vinyl:     { mat: 2.00, install: 2.00 },
+  tile:      { mat: 4.00, install: 6.00 },
+  carpet:    { mat: 2.50, install: 1.00 },
+};
+
+function updateDefaults() {
+  const t = document.getElementById('floorType').value;
+  document.getElementById('matCost').value = defaults[t].mat;
+  document.getElementById('installCost').value = defaults[t].install;
+}
+
+function calculateFlooring() {
+  const area = getVal('areaL') * getVal('areaW');
+  const waste = getVal('waste') / 100;
+  const totalArea = area * (1 + waste);
+  const matCost = getVal('matCost');
+  const installCost = getVal('installCost');
+  const materialTotal = totalArea * matCost;
+  const installTotal = totalArea * installCost;
+  const grandTotal = materialTotal + installTotal;
+
+  setResult('result-total', '$' + grandTotal.toFixed(0));
+  document.getElementById('result-detail').innerHTML =
+    `Room area: ${area.toFixed(0)} sq ft<br>` +
+    `With ${(waste*100).toFixed(0)}% waste: ${totalArea.toFixed(0)} sq ft<br>` +
+    `Material: $${materialTotal.toFixed(0)}<br>` +
+    `Installation: $${installTotal.toFixed(0)}`;
+}
+</script>
+</body>
+</html>

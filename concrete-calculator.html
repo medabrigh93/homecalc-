@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Concrete Calculator — How Much Concrete Do I Need? | HomeCalc</title>
+  <meta name="description" content="Calculate cubic yards of concrete for slabs, footings, and columns. Enter dimensions and get instant results with our free concrete calculator.">
+  <link rel="canonical" href="https://homecalc.github.io/concrete-calculator.html">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      HomeCalc
+    </a>
+    <nav><a href="/">All Calculators</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="breadcrumb"><a href="/">Home</a> &rsaquo; Concrete Calculator</div>
+
+  <h1>Concrete Calculator — How Much Concrete Do I Need?</h1>
+  <p style="color:var(--muted);margin-bottom:1.5rem">Calculate cubic yards and bags of concrete for your project.</p>
+
+  <div class="calc-page">
+    <div class="calc-form">
+      <label for="shape">Project Type</label>
+      <select id="shape" onchange="toggleShape()">
+        <option value="slab">Slab / Square Footing</option>
+        <option value="column">Round Column / Post Hole</option>
+      </select>
+
+      <div id="slab-fields">
+        <label for="slabL">Length (ft)</label>
+        <input type="number" id="slabL" placeholder="e.g. 10" min="0" step="0.1">
+
+        <label for="slabW">Width (ft)</label>
+        <input type="number" id="slabW" placeholder="e.g. 10" min="0" step="0.1">
+      </div>
+
+      <div id="column-fields" style="display:none">
+        <label for="diameter">Diameter (inches)</label>
+        <input type="number" id="diameter" placeholder="e.g. 12" min="0" step="0.1">
+      </div>
+
+      <label for="depth">Depth / Thickness (inches)</label>
+      <input type="number" id="depth" placeholder="e.g. 4" min="0" step="0.1" value="4">
+
+      <label for="quantity">Number of identical sections</label>
+      <input type="number" id="quantity" value="1" min="1">
+
+      <button class="btn" onclick="calculateConcrete()">Calculate</button>
+    </div>
+
+    <div class="calc-result">
+      <div class="big-number" id="result-yards">—</div>
+      <div class="unit">cubic yards</div>
+      <div class="detail" id="result-detail"></div>
+    </div>
+  </div>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+
+  <section class="info-section">
+    <h2>How to Calculate Concrete</h2>
+    <p><strong>Slab:</strong> Volume = Length × Width × Depth (all in feet), then divide by 27 to get cubic yards.</p>
+    <p><strong>Column:</strong> Volume = π × (Radius²) × Depth (all in feet), then divide by 27.</p>
+
+    <h3>Concrete Bag Coverage</h3>
+    <ul>
+      <li><strong>40 lb bag</strong> — covers about 0.011 cubic yards</li>
+      <li><strong>60 lb bag</strong> — covers about 0.017 cubic yards</li>
+      <li><strong>80 lb bag</strong> — covers about 0.022 cubic yards</li>
+    </ul>
+    <p>For projects over 1 cubic yard, consider ordering ready-mix concrete from a local supplier.</p>
+  </section>
+
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q">How many bags of concrete do I need?</div>
+      <div class="faq-a">Divide your total cubic yards by the bag coverage. For example, 1 cubic yard needs about 45 bags of 80 lb concrete mix.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How thick should a concrete slab be?</div>
+      <div class="faq-a">Standard patios and walkways: 4 inches. Driveways: 5–6 inches. Garage floors: 6 inches minimum.</div>
+    </div>
+  </section>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 HomeCalc. All rights reserved. | <a href="/">All Calculators</a></p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+function toggleShape() {
+  const shape = document.getElementById('shape').value;
+  document.getElementById('slab-fields').style.display = shape === 'slab' ? '' : 'none';
+  document.getElementById('column-fields').style.display = shape === 'column' ? '' : 'none';
+}
+
+function calculateConcrete() {
+  const shape = document.getElementById('shape').value;
+  const depthFt = getVal('depth') / 12;
+  const qty = getVal('quantity') || 1;
+  let volumeFt3;
+
+  if (shape === 'slab') {
+    volumeFt3 = getVal('slabL') * getVal('slabW') * depthFt;
+  } else {
+    const radiusFt = (getVal('diameter') / 2) / 12;
+    volumeFt3 = Math.PI * radiusFt * radiusFt * depthFt;
+  }
+
+  volumeFt3 *= qty;
+  const cubicYards = volumeFt3 / 27;
+  const withWaste = cubicYards * 1.1;
+  const bags80 = Math.ceil(withWaste / 0.022);
+  const bags60 = Math.ceil(withWaste / 0.017);
+
+  setResult('result-yards', withWaste.toFixed(2));
+  document.getElementById('result-detail').innerHTML =
+    `Volume: ${volumeFt3.toFixed(1)} cu ft<br>` +
+    `Exact: ${cubicYards.toFixed(2)} cu yd<br>` +
+    `With 10% waste: ${withWaste.toFixed(2)} cu yd<br>` +
+    `≈ ${bags80} bags (80 lb) or ${bags60} bags (60 lb)`;
+}
+</script>
+</body>
+</html>

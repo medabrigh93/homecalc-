@@ -1,0 +1,90 @@
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#2563eb;
+  --primary-dark:#1d4ed8;
+  --accent:#f59e0b;
+  --bg:#f8fafc;
+  --card:#fff;
+  --text:#1e293b;
+  --muted:#64748b;
+  --border:#e2e8f0;
+  --radius:12px;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.04);
+  --max-w:1100px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+
+/* HEADER */
+.site-header{background:var(--primary);color:#fff;padding:1rem 0;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.site-header .wrap{max-width:var(--max-w);margin:auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.site-header a{color:#fff;text-decoration:none}
+.logo{font-size:1.35rem;font-weight:700;display:flex;align-items:center;gap:.5rem}
+.logo svg{width:28px;height:28px}
+nav a{margin-left:1.5rem;font-size:.95rem;opacity:.85;transition:opacity .2s}
+nav a:hover{opacity:1}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:3.5rem 1.5rem;text-align:center}
+.hero h1{font-size:2.2rem;margin-bottom:.75rem}
+.hero p{font-size:1.15rem;opacity:.9;max-width:600px;margin:auto}
+
+/* MAIN */
+.wrap{max-width:var(--max-w);margin:auto;padding:2rem 1.5rem}
+
+/* CALCULATOR GRID (homepage) */
+.calc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin-top:1.5rem}
+.calc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;text-decoration:none;color:var(--text);transition:transform .2s,box-shadow .2s;box-shadow:var(--shadow)}
+.calc-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.calc-card .icon{font-size:2rem;margin-bottom:.75rem}
+.calc-card h2{font-size:1.15rem;margin-bottom:.4rem}
+.calc-card p{font-size:.9rem;color:var(--muted)}
+
+/* CALCULATOR PAGE LAYOUT */
+.calc-page{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;margin:2rem 0}
+@media(max-width:768px){.calc-page{grid-template-columns:1fr}}
+.calc-form{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow)}
+.calc-result{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:200px}
+.calc-result .big-number{font-size:3rem;font-weight:700;color:var(--primary);line-height:1.2}
+.calc-result .unit{font-size:1.1rem;color:var(--muted);margin-top:.25rem}
+.calc-result .detail{margin-top:1rem;font-size:.95rem;color:var(--muted)}
+
+/* FORMS */
+label{display:block;font-weight:600;margin-bottom:.35rem;font-size:.95rem}
+input[type="number"],select{width:100%;padding:.65rem .85rem;border:1px solid var(--border);border-radius:8px;font-size:1rem;margin-bottom:1.15rem;transition:border-color .2s}
+input[type="number"]:focus,select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.input-group{position:relative}
+.input-group .suffix{position:absolute;right:.85rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.9rem;pointer-events:none}
+.btn{display:inline-block;background:var(--primary);color:#fff;border:none;padding:.75rem 2rem;border-radius:8px;font-size:1.05rem;font-weight:600;cursor:pointer;transition:background .2s;width:100%}
+.btn:hover{background:var(--primary-dark)}
+
+/* INFO SECTION */
+.info-section{margin:3rem 0;line-height:1.8}
+.info-section h2{font-size:1.4rem;margin-bottom:.75rem;color:var(--text)}
+.info-section h3{font-size:1.15rem;margin:1.5rem 0 .5rem}
+.info-section p{margin-bottom:1rem;color:#334155}
+.info-section ul{margin:0 0 1rem 1.5rem}
+.info-section li{margin-bottom:.4rem;color:#334155}
+
+/* FAQ */
+.faq{margin:2.5rem 0}
+.faq h2{font-size:1.4rem;margin-bottom:1rem}
+.faq-item{border:1px solid var(--border);border-radius:8px;margin-bottom:.75rem;overflow:hidden}
+.faq-q{padding:1rem 1.25rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--card)}
+.faq-q::after{content:'+';font-size:1.3rem;color:var(--muted);transition:transform .2s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{padding:0 1.25rem;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease}
+.faq-item.open .faq-a{max-height:300px;padding:0 1.25rem 1rem}
+
+/* BREADCRUMB */
+.breadcrumb{font-size:.9rem;color:var(--muted);margin-bottom:1rem}
+.breadcrumb a{color:var(--primary);text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+
+/* FOOTER */
+.site-footer{background:#1e293b;color:#94a3b8;text-align:center;padding:2rem 1.5rem;margin-top:3rem;font-size:.9rem}
+.site-footer a{color:#cbd5e1;text-decoration:none}
+.site-footer a:hover{color:#fff}
+
+/* AD SLOT — hidden until you paste your AdSense code */
+.ad-slot:empty{display:none}

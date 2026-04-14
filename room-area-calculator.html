@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Room Area Calculator — Calculate Square Footage | HomeCalc</title>
+  <meta name="description" content="Calculate the square footage of any room. Supports rectangular, L-shaped, and multi-section rooms. Free room area calculator.">
+  <link rel="canonical" href="https://homecalc.github.io/room-area-calculator.html">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      HomeCalc
+    </a>
+    <nav><a href="/">All Calculators</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="breadcrumb"><a href="/">Home</a> &rsaquo; Room Area Calculator</div>
+
+  <h1>Room Area Calculator — Calculate Square Footage</h1>
+  <p style="color:var(--muted);margin-bottom:1.5rem">Add one or more rectangular sections to calculate total area.</p>
+
+  <div class="calc-page">
+    <div class="calc-form">
+      <div id="sections">
+        <div class="section-group" data-index="0">
+          <strong>Section 1</strong>
+          <label>Length (ft)</label>
+          <input type="number" class="sec-l" placeholder="e.g. 12" min="0" step="0.1">
+          <label>Width (ft)</label>
+          <input type="number" class="sec-w" placeholder="e.g. 10" min="0" step="0.1">
+        </div>
+      </div>
+
+      <button type="button" style="background:none;border:1px dashed var(--border);color:var(--primary);padding:.6rem;border-radius:8px;width:100%;cursor:pointer;margin-bottom:1rem;font-size:.95rem" onclick="addSection()">+ Add Section (for L-shaped rooms)</button>
+
+      <button class="btn" onclick="calculateArea()">Calculate Total Area</button>
+    </div>
+
+    <div class="calc-result">
+      <div class="big-number" id="result-area">—</div>
+      <div class="unit">sq ft</div>
+      <div class="detail" id="result-detail"></div>
+    </div>
+  </div>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+
+  <section class="info-section">
+    <h2>How to Measure Room Square Footage</h2>
+    <p>For a simple rectangular room: <strong>Area = Length × Width</strong></p>
+    <p>For L-shaped or irregular rooms, divide the room into rectangles, measure each one, and add them together. Our calculator lets you add multiple sections to handle any shape.</p>
+
+    <h3>Tips</h3>
+    <ul>
+      <li>Measure in feet (convert inches to decimals: 6 inches = 0.5 ft)</li>
+      <li>For closets and alcoves, add them as separate sections</li>
+      <li>Round up to the nearest 0.5 ft when measuring</li>
+    </ul>
+  </section>
+
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q">How do I calculate square footage of an L-shaped room?</div>
+      <div class="faq-a">Divide the L into two rectangles. Measure length × width of each, then add them. Use the "+ Add Section" button above to enter both.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How many square feet is a 10×12 room?</div>
+      <div class="faq-a">120 square feet (10 × 12 = 120).</div>
+    </div>
+  </section>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 HomeCalc. All rights reserved. | <a href="/">All Calculators</a></p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+let sectionCount = 1;
+
+function addSection() {
+  sectionCount++;
+  const div = document.createElement('div');
+  div.className = 'section-group';
+  div.style.marginTop = '1rem';
+  div.innerHTML = `
+    <strong>Section ${sectionCount}</strong>
+    <label>Length (ft)</label>
+    <input type="number" class="sec-l" placeholder="e.g. 8" min="0" step="0.1">
+    <label>Width (ft)</label>
+    <input type="number" class="sec-w" placeholder="e.g. 6" min="0" step="0.1">
+  `;
+  document.getElementById('sections').appendChild(div);
+}
+
+function calculateArea() {
+  const lengths = document.querySelectorAll('.sec-l');
+  const widths = document.querySelectorAll('.sec-w');
+  let total = 0;
+  const parts = [];
+
+  for (let i = 0; i < lengths.length; i++) {
+    const l = parseFloat(lengths[i].value) || 0;
+    const w = parseFloat(widths[i].value) || 0;
+    const a = l * w;
+    total += a;
+    if (a > 0) parts.push(`Section ${i+1}: ${l} × ${w} = ${a.toFixed(1)} sq ft`);
+  }
+
+  setResult('result-area', total.toFixed(1));
+  const sqm = total * 0.0929;
+  document.getElementById('result-detail').innerHTML =
+    parts.join('<br>') + `<br><br>= ${total.toFixed(1)} sq ft (${sqm.toFixed(1)} m²)`;
+}
+</script>
+</body>
+</html>

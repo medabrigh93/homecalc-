@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tile Calculator — How Many Tiles Do I Need? | HomeCalc</title>
+  <meta name="description" content="Calculate how many tiles you need for your floor or wall project. Enter area and tile size to get an instant estimate with waste factor.">
+  <link rel="canonical" href="https://homecalc.github.io/tile-calculator.html">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type": "Question", "name": "How many tiles do I need per square foot?", "acceptedAnswer": {"@type": "Answer", "text": "It depends on tile size. For 12x12 inch tiles, you need 1 tile per sq ft. For 6x6 inch tiles, you need 4 tiles per sq ft."}},
+      {"@type": "Question", "name": "How much extra tile should I buy?", "acceptedAnswer": {"@type": "Answer", "text": "Buy 10-15% extra for cuts, breakage, and waste. Complex patterns or diagonal layouts may need 15-20% extra."}}
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      HomeCalc
+    </a>
+    <nav><a href="/">All Calculators</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="breadcrumb"><a href="/">Home</a> &rsaquo; Tile Calculator</div>
+
+  <h1>Tile Calculator — How Many Tiles Do I Need?</h1>
+  <p style="color:var(--muted);margin-bottom:1.5rem">Enter your area dimensions and tile size to get an instant estimate.</p>
+
+  <div class="calc-page">
+    <div class="calc-form">
+      <label for="areaLength">Area Length (ft)</label>
+      <input type="number" id="areaLength" placeholder="e.g. 10" min="0" step="0.1">
+
+      <label for="areaWidth">Area Width (ft)</label>
+      <input type="number" id="areaWidth" placeholder="e.g. 12" min="0" step="0.1">
+
+      <label for="tileW">Tile Width (inches)</label>
+      <input type="number" id="tileW" value="12" min="0.1" step="0.1">
+
+      <label for="tileH">Tile Height (inches)</label>
+      <input type="number" id="tileH" value="12" min="0.1" step="0.1">
+
+      <label for="waste">Waste Factor (%)</label>
+      <select id="waste">
+        <option value="10" selected>10% (standard)</option>
+        <option value="15">15% (diagonal/complex)</option>
+        <option value="20">20% (intricate pattern)</option>
+      </select>
+
+      <label for="pricePerTile">Price per Tile ($) — optional</label>
+      <input type="number" id="pricePerTile" placeholder="e.g. 2.50" min="0" step="0.01">
+
+      <button class="btn" onclick="calculateTiles()">Calculate</button>
+    </div>
+
+    <div class="calc-result" id="result-panel">
+      <div class="big-number" id="result-tiles">—</div>
+      <div class="unit">tiles needed</div>
+      <div class="detail" id="result-detail"></div>
+    </div>
+  </div>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+
+  <section class="info-section">
+    <h2>How to Calculate Tiles Needed</h2>
+    <p><strong>Area</strong> = Length × Width (in sq ft)</p>
+    <p><strong>Tile Area</strong> = Tile Width × Tile Height (converted to sq ft)</p>
+    <p><strong>Tiles Needed</strong> = (Area ÷ Tile Area) × (1 + Waste %)</p>
+
+    <h3>Common Tile Sizes</h3>
+    <ul>
+      <li><strong>12×12 in</strong> — 1 sq ft per tile, most popular for floors</li>
+      <li><strong>6×6 in</strong> — 0.25 sq ft per tile, common for walls &amp; backsplashes</li>
+      <li><strong>24×24 in</strong> — 4 sq ft per tile, large format floors</li>
+      <li><strong>3×6 in</strong> — subway tile, popular for kitchen backsplashes</li>
+    </ul>
+  </section>
+
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q">How many tiles do I need per square foot?</div>
+      <div class="faq-a">It depends on tile size. For 12×12 inch tiles you need 1 tile per sq ft. For 6×6 inch tiles, you need 4 per sq ft. Our calculator handles any size.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How much extra tile should I buy?</div>
+      <div class="faq-a">Buy 10–15% extra for cuts, breakage, and waste. Complex patterns or diagonal layouts may need 15–20% extra.</div>
+    </div>
+  </section>
+
+  <!-- AD SLOT: Paste your AdSense code here --><div class="ad-slot"></div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 HomeCalc. All rights reserved. | <a href="/">All Calculators</a></p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+function calculateTiles() {
+  const areaLength = getVal('areaLength');
+  const areaWidth = getVal('areaWidth');
+  const tileW = getVal('tileW');
+  const tileH = getVal('tileH');
+  const waste = getVal('waste') / 100;
+  const price = getVal('pricePerTile');
+
+  const areaSqFt = areaLength * areaWidth;
+  const tileSqFt = (tileW * tileH) / 144;
+  const tilesExact = areaSqFt / tileSqFt;
+  const tilesWithWaste = Math.ceil(tilesExact * (1 + waste));
+
+  setResult('result-tiles', tilesWithWaste);
+
+  let detail = `Area: ${areaSqFt.toFixed(1)} sq ft<br>` +
+    `Tile area: ${tileSqFt.toFixed(3)} sq ft<br>` +
+    `Tiles (no waste): ${Math.ceil(tilesExact)}<br>` +
+    `Tiles (with ${(waste*100).toFixed(0)}% waste): ${tilesWithWaste}`;
+
+  if (price > 0) {
+    detail += `<br><strong>Est. cost: $${(tilesWithWaste * price).toFixed(2)}</strong>`;
+  }
+  document.getElementById('result-detail').innerHTML = detail;
+}
+</script>
+</body>
+</html>
